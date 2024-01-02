@@ -1,11 +1,15 @@
-﻿namespace Domain.Entities;
+﻿using Domain.Entities;
+using MediatR;
 
-public class User
+namespace Application.Users.Commands.CreateUser;
+
+public class CreateUserCommand:IRequest<int>
 {
-    public int Id { get; set; }
+    
     public string Name { get; set; }
     public string MiddleName { get; set; }
     public string Surname { get; set; }
     public int? Age { get; set; }
     public int? Salary { get; set; }
+    public UserAccess UserAccess { get; set; }
 }

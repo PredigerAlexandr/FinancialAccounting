@@ -1,6 +1,8 @@
-﻿namespace Domain.Entities;
+﻿using MediatR;
 
-public class User
+namespace Application.Users.Commands.AddUser;
+
+public class UpdateUserCommand : IRequest<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }
