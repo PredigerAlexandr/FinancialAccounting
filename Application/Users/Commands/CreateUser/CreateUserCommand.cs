@@ -11,5 +11,4 @@ public class CreateUserCommand:IRequest<int>
     public string Surname { get; set; }
     public int? Age { get; set; }
     public int? Salary { get; set; }
-    public UserAccess UserAccess { get; set; }
 }

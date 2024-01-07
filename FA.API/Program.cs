@@ -1,7 +1,10 @@
 using System.Net.NetworkInformation;
+using System.Reflection;
 using Application.Common.Mappings;
 using Application.Interfaces;
+using Application.Users.Commands.CreateUser;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,19 +15,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
+builder.Services.AddDbContext<IDbContext, PostgreSqlDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(Ping).Assembly));
+
+foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+{
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+}
+
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommand>());
+
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>
 {
     policy.AllowAnyOrigin();
     policy.AllowAnyHeader();
     policy.AllowAnyMethod();
 }));
-var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection");
-builder.Services.AddDbContext<IDbContext, PostgreSqlDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

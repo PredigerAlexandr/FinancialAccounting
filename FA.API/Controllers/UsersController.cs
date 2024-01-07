@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CreditAPI.Controllers;
 
 [ApiController]
+[Route("[controller]/[action]")]
 public class UsersController : BaseController
 {
     public UsersController(IMediator mediator) : base(mediator)
@@ -29,7 +30,7 @@ public class UsersController : BaseController
     [HttpPut]
     public async Task<ActionResult<ICollection<UserDto>>> Add([FromBody] CreateUserCommand createUserCommand)
     {
-        var vm = Mediator.Send(createUserCommand);
+        var vm = await Mediator.Send(createUserCommand);
         return Ok(vm);
     }
 }
