@@ -2,6 +2,8 @@ using System.Net.NetworkInformation;
 using System.Reflection;
 using Application.Common.Mappings;
 using Application.Interfaces;
+using Application.Services;
+using Application.Services.IdentityService;
 using Application.Users.Commands.CreateUser;
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -26,6 +28,8 @@ foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 
 builder.Services.AddControllers()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommand>());
+
+builder.Services.AddSingleton<IIdentityService,IdentityServiceWithDateAndGuids>();
 
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>
 {

@@ -5,9 +5,8 @@ namespace Application.Interfaces;
 
 public interface IDbContext
 {
-    DbSet<User>Users{get; set; }
-    DbSet<Loan>Loans{get; set; }
-    DbSet<UserAccess>UserAccesses{get; set; }
+    DbSet<User> Users { get; set; }
+    DbSet<Loan> Loans { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

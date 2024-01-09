@@ -9,8 +9,7 @@ public class PostgreSqlDbContext : DbContext, IDbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Loan> Loans { get; set; }
-    public DbSet<UserAccess> UserAccesses { get; set; }
-    
+
 
     public PostgreSqlDbContext(DbContextOptions<PostgreSqlDbContext> options) : base(options)
     {
@@ -20,7 +19,6 @@ public class PostgreSqlDbContext : DbContext, IDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new UserConfiguration());
-        builder.ApplyConfiguration(new UserAccessConfiguration());
         builder.ApplyConfiguration(new LoanConfiguration());
         base.OnModelCreating(builder);
     }
