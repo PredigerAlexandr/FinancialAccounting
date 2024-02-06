@@ -1,0 +1,2 @@
+Добавление миграции и обновление базы выполнять с припиской - "--verbose --project CommandService.Data   --startup-project CommandService"
+Например: dotnet ef database update --verbose --project CommandService.Data   --startup-project CommandService

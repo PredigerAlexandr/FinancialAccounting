@@ -16,7 +16,7 @@ public class IdentityController:BaseController
 {
     private readonly IIdentityService _identityService;
     private static readonly MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
-    private const string secretKey = "95381538c4da5c17ea6a4a9e19de7258";
+    private const string SecretKey = "95381538c4da5c17ea6a4a9e19de7258";
 
     public IdentityController(IMediator mediator, IIdentityService identityService) : base(mediator)
     {
@@ -32,8 +32,18 @@ public class IdentityController:BaseController
     [HttpPut]
     public async Task<ActionResult<UserDto>> Registration([FromBody] CreateUserCommand createUserCommand)
     {
-        createUserCommand.Salt = secretKey;
+        createUserCommand.Salt = SecretKey;
         var vm = await Mediator.Send(createUserCommand);
         return Ok(vm);
     }
+    
+    public async Task<ActionResult> Login([FromBody] UserLoginDto loginUserDto)
+    {
+        
+        createUserCommand.Salt = SecretKey;
+        var vm = await Mediator.Send(createUserCommand);
+        return Ok(vm);
+    }
+    
+    
 }
