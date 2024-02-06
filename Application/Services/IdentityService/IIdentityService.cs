@@ -2,6 +2,5 @@
 
 public interface IIdentityService
 {
-    public string Challenge { get; }
-    public string GenerateChallenge();
+    public string GetMD5Hash(string input);
 }

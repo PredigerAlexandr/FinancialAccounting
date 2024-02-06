@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using Application.Services.IdentityService;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Application.Services;
 /// <summary>
@@ -7,16 +9,20 @@ namespace Application.Services;
 /// </summary>
 public class IdentityServiceWithDateAndGuids:IIdentityService
 {
-    private string? _challenge;
-
-    public string Challenge => _challenge ?? GenerateChallenge();
-    /// <summary>
-    /// Метод генерации соли, отправляемой на клиент
-    /// </summary>
-    /// <returns>соль из 2 гуидов и даты</returns>
-    public string GenerateChallenge()
+    public string GetMD5Hash(string input)
     {
-        _challenge = Guid.NewGuid().ToString() + DateTime.Now.ToString() + Guid.NewGuid().ToString();
-        return _challenge;
+        using (MD5 md5 = MD5.Create())
+        {
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("x2"));
+            }
+
+            return sb.ToString().Substring(0, 16);
+        }
     }
 }

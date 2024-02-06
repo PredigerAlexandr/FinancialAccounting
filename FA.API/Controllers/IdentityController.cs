@@ -1,33 +1,26 @@
-﻿using Application.Common.Filters;
-using Application.Common.Models;
-using Application.Services;
+﻿using Application.Common.Models;
 using Application.Services.IdentityService;
 using Application.Users.Commands.CreateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Caching.Memory;
+using System.Text.Json;
 namespace CreditAPI.Controllers;
 
 /// <summary>
 /// Сервис аутентификации, авторизации и идентификации 
 /// </summary>
 [ApiController]
+[Route("[controller]")]
 public class IdentityController:BaseController
 {
-    private readonly IIdentityService _identityService; 
+    private readonly IIdentityService _identityService;
+    private static readonly MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
+    private const string secretKey = "95381538c4da5c17ea6a4a9e19de7258";
+
     public IdentityController(IMediator mediator, IIdentityService identityService) : base(mediator)
     {
         _identityService = identityService;
-    }
-    /// <summary>
-    /// действие, которое под видом проверки логина отправлет на клиент соль
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet]
-    [Route("/checkLogin")]
-    public ActionResult<string> CheckLogin()
-    {
-        return Ok(_identityService.GenerateChallenge());
     }
     
     /// <summary>
@@ -39,7 +32,7 @@ public class IdentityController:BaseController
     [HttpPut]
     public async Task<ActionResult<UserDto>> Registration([FromBody] CreateUserCommand createUserCommand)
     {
-        var hui = _identityService.Challenge;
+        createUserCommand.Salt = secretKey;
         var vm = await Mediator.Send(createUserCommand);
         return Ok(vm);
     }
