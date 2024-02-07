@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,43 +7,23 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserAccesses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Login = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserAccesses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserAccesses_UserAccesses_UserId",
-                        column: x => x.UserId,
-                        principalTable: "UserAccesses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     MiddleName = table.Column<string>(type: "text", nullable: false),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Age = table.Column<int>(type: "integer", nullable: true),
-                    Salary = table.Column<int>(type: "integer", nullable: true)
+                    Salary = table.Column<int>(type: "integer", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,14 +40,15 @@ namespace Infrastructure.Migrations
                     FullSum = table.Column<decimal>(type: "numeric", nullable: false),
                     CurrentSum = table.Column<decimal>(type: "numeric", nullable: false),
                     Rate = table.Column<decimal>(type: "numeric", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserId1 = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Loans_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Loans_Users_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -78,19 +60,15 @@ namespace Infrastructure.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loans_UserId",
+                name: "IX_Loans_UserId1",
                 table: "Loans",
-                column: "UserId");
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAccesses_Id",
-                table: "UserAccesses",
-                column: "Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserAccesses_UserId",
-                table: "UserAccesses",
-                column: "UserId");
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Id",
@@ -103,9 +81,6 @@ namespace Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Loans");
-
-            migrationBuilder.DropTable(
-                name: "UserAccesses");
 
             migrationBuilder.DropTable(
                 name: "Users");

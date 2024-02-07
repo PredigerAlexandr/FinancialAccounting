@@ -55,7 +55,7 @@ foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 builder.Services.AddControllers()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommand>());
 
-builder.Services.AddSingleton<IIdentityService,IdentityServiceWithDateAndGuids>();
+builder.Services.AddSingleton<IIdentityService,IdentityService>();
 
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>
 {

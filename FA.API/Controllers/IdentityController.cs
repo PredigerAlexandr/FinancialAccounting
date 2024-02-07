@@ -1,10 +1,13 @@
-﻿using Application.Common.Models;
+﻿using System.Security.Claims;
+using Application.Common.Models;
 using Application.Services.IdentityService;
 using Application.Users.Commands.CreateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
+using Application.Services.UserService;
+
 namespace CreditAPI.Controllers;
 
 /// <summary>
@@ -15,12 +18,14 @@ namespace CreditAPI.Controllers;
 public class IdentityController:BaseController
 {
     private readonly IIdentityService _identityService;
+    private readonly IUserService _userService;
     private static readonly MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
     private const string SecretKey = "95381538c4da5c17ea6a4a9e19de7258";
 
-    public IdentityController(IMediator mediator, IIdentityService identityService) : base(mediator)
+    public IdentityController(IMediator mediator, IIdentityService identityService, IUserService userService) : base(mediator)
     {
         _identityService = identityService;
+        _userService = userService;
     }
     
     /// <summary>
@@ -36,13 +41,19 @@ public class IdentityController:BaseController
         var vm = await Mediator.Send(createUserCommand);
         return Ok(vm);
     }
-    
-    public async Task<ActionResult> Login([FromBody] UserLoginDto loginUserDto)
+    [HttpPost]
+    [Route("/login")]
+    public async Task<ActionResult> Login([FromBody] UserLoginDto userLoginDto)
     {
-        
-        createUserCommand.Salt = SecretKey;
-        var vm = await Mediator.Send(createUserCommand);
-        return Ok(vm);
+        var user = await _identityService.LoginUserAsync(userLoginDto, SecretKey);
+        if (user == null)
+        {
+            return BadRequest(JsonSerializer.Serialize(
+                new Dictionary<string, string> { { "error", "Not found this user." } }
+            ));
+        }
+                
+        return Ok();
     }
     
     

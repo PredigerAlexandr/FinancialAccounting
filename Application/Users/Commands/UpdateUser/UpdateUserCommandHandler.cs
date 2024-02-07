@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Users.Commands.UpdateUser;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, int>
+public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Guid>
 {
     private readonly IDbContext _dbContext;
     public UpdateUserCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
 
-    public async Task<int> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Users.FirstOrDefaultAsync(user =>
             user.Id == request.Id, cancellationToken);

@@ -1,6 +1,10 @@
-﻿namespace Application.Services.IdentityService;
+﻿using Application.Common.Models;
+using Domain.Entities;
+
+namespace Application.Services.IdentityService;
 
 public interface IIdentityService
 {
-    public string GetMD5Hash(string input);
+    Task<User?> LoginUserAsync(UserLoginDto userLoginDto, string secretKey);
+    string GetMD5Hash(string input);
 }

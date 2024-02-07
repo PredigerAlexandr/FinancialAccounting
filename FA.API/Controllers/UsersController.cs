@@ -15,11 +15,11 @@ public class UsersController : BaseController
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<UserDto>> GetById(int id)
+    public async Task<ActionResult<UserDto>> GetById(string id)
     {
         var query = new GetUserDetailsQuery()
         {
-            Id = id
+            Id = new Guid(id)
         };
 
         var vm = await Mediator.Send(query);

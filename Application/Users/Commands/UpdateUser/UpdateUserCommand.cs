@@ -2,9 +2,9 @@
 
 namespace Application.Users.Commands.AddUser;
 
-public class UpdateUserCommand : IRequest<int>
+public class UpdateUserCommand : IRequest<Guid>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string MiddleName { get; set; }
     public string Surname { get; set; }
