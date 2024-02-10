@@ -1,12 +1,14 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Application.Common.Models;
 using Application.Services.IdentityService;
 using Application.Users.Commands.CreateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
-using Application.Services.UserService;
+using Domain.Models.JWT;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CreditAPI.Controllers;
 
@@ -18,14 +20,11 @@ namespace CreditAPI.Controllers;
 public class IdentityController:BaseController
 {
     private readonly IIdentityService _identityService;
-    private readonly IUserService _userService;
-    private static readonly MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
     private const string SecretKey = "95381538c4da5c17ea6a4a9e19de7258";
 
-    public IdentityController(IMediator mediator, IIdentityService identityService, IUserService userService) : base(mediator)
+    public IdentityController(IMediator mediator, IIdentityService identityService) : base(mediator)
     {
         _identityService = identityService;
-        _userService = userService;
     }
     
     /// <summary>
@@ -52,8 +51,18 @@ public class IdentityController:BaseController
                 new Dictionary<string, string> { { "error", "Not found this user." } }
             ));
         }
+
+        var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Name) };
+        var jwt = new JwtSecurityToken(issuer: JwtOptions.ISSUER,
+            audience: JwtOptions.AUDIENCE,
+            claims: claims,
+            expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(30)), // время действия 2 минуты
+            signingCredentials: new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtOptions.KEY)), SecurityAlgorithms.HmacSha256)
+        );
+        var result = new JwtSecurityTokenHandler().WriteToken(jwt);
                 
-        return Ok();
+        return  Ok(new {name = user.Name, jwt=result});
     }
     
     

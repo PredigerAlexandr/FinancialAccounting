@@ -5,8 +5,10 @@ using Application.Common.Mappings;
 using Application.Interfaces;
 using Application.Services;
 using Application.Services.IdentityService;
+using Application.Services.UserService;
 using Application.Users.Commands.CreateUser;
 using AutoMapper;
+using Domain.Models.JWT;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,17 +28,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // укзывает, будет ли валидироваться издатель при валидации токена
             ValidateIssuer = true,
             // строка, представляющая издателя
-            ValidIssuer = "http://localhost:5218/",
+            ValidIssuer = JwtOptions.ISSUER,
  
             // будет ли валидироваться потребитель токена
             ValidateAudience = true,
             // установка потребителя токена
-            ValidAudience = "http://localhost:4200/",
+            ValidAudience = JwtOptions.AUDIENCE,
             // будет ли валидироваться время существования
             ValidateLifetime = true,
  
             // установка ключа безопасности
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("mysupersecret_secretkey!123")),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtOptions.KEY)),
             // валидация ключа безопасности
             ValidateIssuerSigningKey = true,
         };
@@ -55,7 +57,9 @@ foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 builder.Services.AddControllers()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommand>());
 
-builder.Services.AddSingleton<IIdentityService,IdentityService>();
+builder.Services.AddScoped<IIdentityService,IdentityService>();
+builder.Services.AddScoped<IUserService,UserService>();
+
 
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>
 {

@@ -4,5 +4,5 @@ namespace Application.Services.UserService;
 
 public interface IUserService
 {
-    Task<User?> GetUserByIdAsync(string id);
+    Task<User?>? GetUserByIdAsync(string id);
 }
