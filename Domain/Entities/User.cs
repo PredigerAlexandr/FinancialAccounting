@@ -10,6 +10,8 @@ public class User
     public int? Salary { get; set; }
     
     public string Email { get; set; }
-
     public string Password { get; set; }
+
+    public List<Loan>? Loans { get; set; }
+    public List<BankDeposit>? BankDeposits { get; set; }
 }

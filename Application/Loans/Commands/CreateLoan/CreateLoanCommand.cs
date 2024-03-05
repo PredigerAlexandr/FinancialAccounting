@@ -10,4 +10,5 @@ public class CreateLoanCommand : IRequest<int>
     public decimal Sum { get; set; }
     public string Name { get; set; }
     public double Procent { get; set; }
+    public string Type { get; set; }
 }

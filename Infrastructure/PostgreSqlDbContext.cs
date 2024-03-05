@@ -9,7 +9,8 @@ public class PostgreSqlDbContext : DbContext, IDbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Loan> Loans { get; set; }
-
+    public DbSet<BankDeposit> BankDeposits { get; set; }
+    
 
     public PostgreSqlDbContext(DbContextOptions<PostgreSqlDbContext> options) : base(options)
     {

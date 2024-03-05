@@ -6,6 +6,7 @@ using Application.Interfaces;
 using Application.Services.IdentityService;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Models.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,8 +36,13 @@ public class CreateLoanCommandHandler : IRequestHandler<CreateLoanCommand, int>
             FullSum = request.Sum,
             CurrentSum = 0,
             Rate = (decimal)request.Procent,
-            User  = user
+            Type = (LoanType)Enum.Parse(typeof(LoanType),request.Type)
         };
+        
+        user?.Loans?.Add(entity);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
         
         return 1;
     }

@@ -6,5 +6,5 @@ namespace Application.Users.Queries.GetUserDetails;
 
 public class GetLoanDetailsQuery : IRequest<Loan>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }

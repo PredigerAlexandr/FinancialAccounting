@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PostgreSqlDbContext))]
-    partial class PostgreSqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240207151355_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,43 +25,13 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.BankDeposit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("CurrentSum")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("FullSum")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId1")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("BankDeposits");
-                });
-
             modelBuilder.Entity("Domain.Entities.Loan", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("CurrentSum")
                         .HasColumnType("numeric");
@@ -73,9 +46,6 @@ namespace Infrastructure.Migrations
                     b.Property<decimal>("Rate")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -83,6 +53,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id");
 
                     b.HasIndex("UserId1");
 
@@ -131,33 +103,15 @@ namespace Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Domain.Entities.BankDeposit", b =>
-                {
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithMany("BankDeposits")
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Domain.Entities.Loan", b =>
                 {
                     b.HasOne("Domain.Entities.User", "User")
-                        .WithMany("Loans")
+                        .WithMany()
                         .HasForeignKey("UserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Entities.User", b =>
-                {
-                    b.Navigation("BankDeposits");
-
-                    b.Navigation("Loans");
                 });
 #pragma warning restore 612, 618
         }
