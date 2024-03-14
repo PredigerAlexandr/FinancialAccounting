@@ -1,6 +1,12 @@
 ﻿using Application.Common.Models;
+using Application.Loans.Commands.CreateLoan;
+using Application.Loans.Commands.DeleteUser;
+using Application.Loans.Commands.UpdateUser;
+using Application.Loans.Queries.GetLoanDetails;
+using Application.Users.Commands.AddUser;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Queries.GetUserDetails;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,22 +15,41 @@ namespace CreditAPI.Controllers;
 [Route("[controller]")]
 public class LoansController:BaseController
 {
-    public LoansController(IMediator mediator) : base(mediator)
+    private readonly IMapper _mapper;
+    public LoansController(IMediator mediator, IMapper mapper) : base(mediator)
     {
+        _mapper = mapper;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<UserDto>> GetById(string id)
+    [HttpGet]
+    [Route("{name}/{email}")]
+    public async Task<ActionResult<UserDto>> GetById(string name, string email)
     {
-        var query = new GetUserDetailsQuery()
+        var query = new GetLoanDetailsQuery()
         {
-            Id = new Guid(id)
+            Name = name,
+            EmailUser = email
         };
 
-        var vm = await Mediator.Send(query);
+        var vm = _mapper.Map<LoanDto>(await Mediator.Send(query));
 
         return Ok(vm);
     }
+    
+    [HttpGet]
+    [Route("{email}")]
+    public async Task<ActionResult<UserDto>> GetByUserEmail(string email)
+    {
+        var query = new GetLoanListQuery()
+        {
+            UserEmail = email
+        };
+
+        var vm = _mapper.Map<List<LoanDto>>(await Mediator.Send(query));
+
+        return Ok(vm);
+    }
+    
     
     [HttpPut]
     public async Task<ActionResult<UserDto>> Add([FromBody] CreateLoanCommand createLoanCommand)
@@ -34,16 +59,22 @@ public class LoansController:BaseController
     }
     
     [HttpDelete]
-    public async Task<ActionResult<UserDto>> Delete([FromBody] CreateLoanCommand createLoanCommand)
+    [Route("{name}/{email}")]
+    public async Task<ActionResult<UserDto>> Delete(string name, string email)
     {
-        var vm = await Mediator.Send(createLoanCommand);
+        var command = new DeleteLoanCommand()
+        {
+            Name = name,
+            Email = email
+        };
+        var vm = await Mediator.Send(command);
         return Ok(vm);
     }
     
     [HttpPatch]
-    public async Task<ActionResult<UserDto>> Update([FromBody] CreateLoanCommand createLoanCommand)
+    public async Task<ActionResult<UserDto>> Update([FromBody] UpdateLoanCommand updateLoanCommand)
     {
-        var vm = await Mediator.Send(createLoanCommand);
+        var vm = await Mediator.Send(updateLoanCommand);
         return Ok(vm);
     }
     

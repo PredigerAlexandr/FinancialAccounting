@@ -9,9 +9,6 @@ public class Loan
     public decimal FullSum { get; set; }
     public decimal CurrentSum { get; set; }
     public decimal Rate { get; set; }
-    
     public LoanType Type { get; set; }
-    
-    public int UserId { get; set; }
     public User User { get; set; }
 }

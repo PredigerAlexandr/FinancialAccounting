@@ -1,8 +1,9 @@
 ﻿using MediatR;
 
-namespace Application.Users.Commands.DeleteUser;
+namespace Application.Loans.Commands.DeleteUser;
 
 public class DeleteLoanCommand : IRequest<int>
 {
-    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
 }

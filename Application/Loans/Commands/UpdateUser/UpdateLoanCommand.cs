@@ -1,9 +1,12 @@
 ﻿using MediatR;
 
-namespace Application.Users.Commands.AddUser;
+namespace Application.Loans.Commands.UpdateUser;
 
-public class UpdateLoanCommand : IRequest<Guid>, IRequest<int>
+public class UpdateLoanCommand : IRequest<int>
 {
-    public Guid Id { get; set; }
+    public string OldName { get; set; }
     public string Name { get; set; }
+    public decimal FullSum { get; set; }
+    public decimal CurrentSum { get; set; }
+    public decimal Rate { get; set; }
 }

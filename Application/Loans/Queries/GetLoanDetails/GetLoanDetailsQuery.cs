@@ -1,10 +1,10 @@
-﻿using Application.Common.Models;
-using Domain.Entities;
+﻿using Domain.Entities;
 using MediatR;
 
-namespace Application.Users.Queries.GetUserDetails;
+namespace Application.Loans.Queries.GetLoanDetails;
 
 public class GetLoanDetailsQuery : IRequest<Loan>
 {
-    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string EmailUser { get; set; }
 }

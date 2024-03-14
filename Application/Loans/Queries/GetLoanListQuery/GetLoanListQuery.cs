@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Users.Queries.GetUserDetails;
 
-public class GetLoanListDetailsQuery : IRequest<IList<Loan>>
+public class GetLoanListQuery : IRequest<IList<Loan>>
 {
     public string UserEmail { get; set; }
 }

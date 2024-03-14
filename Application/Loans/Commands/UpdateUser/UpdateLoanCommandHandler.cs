@@ -5,7 +5,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Users.Commands.UpdateUser;
+namespace Application.Loans.Commands.UpdateUser;
 
 public class UpdateLoanCommandHandler : IRequestHandler<UpdateLoanCommand, int>
 {
@@ -15,14 +15,17 @@ public class UpdateLoanCommandHandler : IRequestHandler<UpdateLoanCommand, int>
     public async Task<int> Handle(UpdateLoanCommand request, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Loans.FirstOrDefaultAsync(loan =>
-            loan.Id == request.Id, cancellationToken);
+            loan.Name == request.OldName, cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(User), request.Id);
+            throw new NotFoundException(nameof(User), request.OldName);
         }
 
         entity.Name = request.Name;
+        entity.CurrentSum = request.CurrentSum;
+        entity.Rate = request.Rate;
+        entity.FullSum = request.FullSum;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
