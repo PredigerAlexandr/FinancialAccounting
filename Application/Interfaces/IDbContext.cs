@@ -6,8 +6,11 @@ namespace Application.Interfaces;
 public interface IDbContext
 {
     DbSet<User> Users { get; set; }
-    DbSet<Loan> Loans { get; set; }
+    DbSet<Debt> Debts { get; set; }
     DbSet<BankDeposit> BankDeposits { get; set; }
+    DbSet<Payment> Payments { get; set; }
+    public DbSet<Payoff> Payoffs { get; set; }
+    public DbSet<Statistic> Statistics { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

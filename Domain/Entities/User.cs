@@ -12,6 +12,7 @@ public class User
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public List<Loan>? Loans { get; set; }
+    public List<Debt>? Debts { get; set; }
     public List<BankDeposit>? BankDeposits { get; set; }
+    public List<Statistic>? Statistics { get; set; }
 }

@@ -9,6 +9,6 @@ public class AppMappingProfile:Profile
     public AppMappingProfile()
     {
         CreateMap<User, UserDto>();
-        CreateMap<Loan, LoanDto>();
+        CreateMap<Debt, DebtDto>();
     }
 }
