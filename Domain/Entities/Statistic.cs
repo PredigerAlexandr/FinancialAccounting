@@ -5,6 +5,10 @@ namespace Domain.Entities;
 public class Statistic
 {
     /// <summary>
+    /// Id объекта
+    /// </summary>
+    public Guid Id { get; set; }
+    /// <summary>
     /// Остаточная сумма всех кредитов
     /// </summary>
     public decimal TotalDebts { get; set; }
@@ -12,7 +16,7 @@ public class Statistic
     /// <summary>
     /// Сумма, находящаяся во вкладах
     /// </summary>
-    public decimal TotalSaves { get; set; }
+    public decimal TotalDeposits { get; set; }
 
     /// <summary>
     /// Итоговая сумма выплат за всё время
@@ -22,7 +26,7 @@ public class Statistic
     /// <summary>
     /// Сума, полученная по вкладам (
     /// </summary>
-    public decimal TotalProfit { get; set; }
+    public decimal TotalPayoffs { get; set; }
     
     /// <summary>
     /// Дата создания статистики

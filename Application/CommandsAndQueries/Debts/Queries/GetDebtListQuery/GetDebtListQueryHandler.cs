@@ -1,13 +1,12 @@
-﻿using Application.Common.Exceptions;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Debtss.Queries.GetDebtsListQuery;
+namespace Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
 
-public class GetDebtsListQueryHandler : IRequestHandler<Users.Queries.GetUserDetails.GetDebtListQuery, IList<Debt>?>
+public class GetDebtsListQueryHandler : IRequestHandler<GetDebtListQuery, IList<Debt>?>
 {
     private readonly IDbContext _dbContext; 
     private readonly IMapper _mapper;
@@ -19,7 +18,7 @@ public class GetDebtsListQueryHandler : IRequestHandler<Users.Queries.GetUserDet
     }
     
 
-    public async Task<IList<Debt>> Handle(Users.Queries.GetUserDetails.GetDebtListQuery request, CancellationToken cancellationToken)
+    public async Task<IList<Debt>> Handle(GetDebtListQuery request, CancellationToken cancellationToken)
     {
         var entities = await _dbContext.Debts.Where(u => u.User.Email == request.UserEmail)
             .ToListAsync(cancellationToken);

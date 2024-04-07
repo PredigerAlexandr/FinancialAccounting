@@ -1,4 +1,6 @@
-﻿using Application.CommandsAndQueries.Payoffs.Queries.GetPayoffListQuery;
+﻿using Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
+using Application.CommandsAndQueries.Payoffs.Queries.GetPayoffListQuery;
+using Application.CommandsAndQueries.Statistics.Queries.GetStatisticDetails;
 using Application.Interfaces;
 using Application.Payments.Queries.GetDepositListQuery;
 using Application.Users.Queries.GetUserDetails;
@@ -55,8 +57,15 @@ public class StatisticService:ServiceBase, IStatisticService
         return totalResult;
     }
     
-    public async Task<Statistic> GetLastStatistic(string userEmail)
+    public async Task<Statistic?> GetLastStatisticAsync(string userEmail)
     {
-        
+        var entity = await Mediator.Send(new GetLastStatisticDetailsQuery() { EmailUser = userEmail });
+
+        return entity;
     }
+
+    public int CalculateDelta(decimal lastValue, decimal currentValue) =>
+        (int)Math.Round((lastValue - currentValue) / (lastValue / 100), 1);
+
+    
 }

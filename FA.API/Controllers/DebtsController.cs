@@ -1,9 +1,9 @@
-﻿using Application.Common.Models;
+﻿using Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
+using Application.Common.Models;
 using Application.Debtss.Commands.CreateDebts;
 using Application.Debtss.Commands.DeleteUser;
 using Application.Debtss.Commands.UpdateUser;
 using Application.Debtss.Queries.GetDebtsDetails;
-using Application.Users.Queries.GetUserDetails;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +38,7 @@ public class DebtsController:BaseController
     [Route("{email}")]
     public async Task<ActionResult<UserDto>> GetByUserEmail(string email)
     {
-        var query = new GetDebtsListQuery()
+        var query = new GetDebtListQuery()
         {
             UserEmail = email
         };

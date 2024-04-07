@@ -1,8 +1,7 @@
-﻿using Application.Common.Models;
-using Domain.Entities;
+﻿using Domain.Entities;
 using MediatR;
 
-namespace Application.Users.Queries.GetUserDetails;
+namespace Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
 
 public class GetDebtListQuery : IRequest<IList<Debt>?>
 {
