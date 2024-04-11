@@ -9,5 +9,4 @@ public class CreateDepositCommand : IRequest<int>
     public decimal CurrentSum { get; set; }
     public string Name { get; set; }
     public double Rate { get; set; }
-    public string Type { get; set; }
 }

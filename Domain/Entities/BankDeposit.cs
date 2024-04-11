@@ -8,7 +8,7 @@ public class BankDeposit
     public Guid Id { get; set; }
     public string Name { get; set; }
     public decimal FullSum { get; set; }
-    public decimal CurrentSum { get; set; }
+    public bool Сapitalization { get; set; }
     [DefaultValue(1)]
     public decimal Rate { get; set; }
     
