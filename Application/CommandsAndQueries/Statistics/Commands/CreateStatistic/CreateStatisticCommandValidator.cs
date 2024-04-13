@@ -1,8 +1,9 @@
-﻿using FluentValidation;
+﻿using Application.Debtss.Commands.CreateDebts;
+using FluentValidation;
 
-namespace Application.Users.Commands.CreateUser;
+namespace Application.CommandsAndQueries.Statistics.Commands.CreateStatistic;
 
-public class CreateStatisticCommandValidator:AbstractValidator<CreateUserCommand>
+public class CreateStatisticCommandValidator:AbstractValidator<CreateStatisticCommand>
 {
     public CreateStatisticCommandValidator()
     {

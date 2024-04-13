@@ -43,6 +43,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserD
         await _dbContext.Users.AddAsync(user, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<User, UserDto>(user);
+        return _mapper.Map<User,UserDto>(user);
     }
 }

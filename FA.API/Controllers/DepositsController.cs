@@ -1,10 +1,13 @@
 ﻿using Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
+using Application.CommandsAndQueries.Deposits.Commands.CreateDeposit;
 using Application.Common.Models;
 using Application.Debtss.Commands.UpdateUser;
 using Application.Deposits.Commands.CreateDeposit;
 using Application.Deposits.Commands.DeleteDeposit;
 using Application.Deposits.Queries.GetDepositDetails;
+using Application.Users.Queries.GetUserDetails;
 using AutoMapper;
+using Domain.Models.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,12 +42,12 @@ public class DepositsController:BaseController
     [Route("{email}")]
     public async Task<ActionResult<UserDto>> GetByUserEmail(string email)
     {
-        var query = new GetDebtListQuery()
+        var query = new GetDepositListQuery()
         {
             UserEmail = email
         };
 
-        var vm = _mapper.Map<List<DebtDto>>(await Mediator.Send(query));
+        var vm = _mapper.Map<List<DepositDto>>(await Mediator.Send(query));
 
         return Ok(vm);
     }

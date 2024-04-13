@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddBankDepositEntity : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,8 +36,10 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     FullSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    CurrentSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    Rate = table.Column<decimal>(type: "numeric", nullable: false),
+                    Capitalization = table.Column<bool>(type: "boolean", nullable: false),
+                    DateStart = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MonthsTotal = table.Column<int>(type: "integer", nullable: false),
+                    Rate = table.Column<double>(type: "double precision", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

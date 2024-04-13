@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PostgreSqlDbContext))]
-    [Migration("20240407153521_AddBankDepositEntity")]
-    partial class AddBankDepositEntity
+    [Migration("20240413141730_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,18 +31,24 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("CurrentSum")
-                        .HasColumnType("numeric");
+                    b.Property<bool>("Capitalization")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("DateStart")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("FullSum")
                         .HasColumnType("numeric");
+
+                    b.Property<int>("MonthsTotal")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("numeric");
+                    b.Property<double>("Rate")
+                        .HasColumnType("double precision");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

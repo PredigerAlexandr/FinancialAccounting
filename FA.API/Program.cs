@@ -50,6 +50,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<IDbContext, PostgreSqlDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())

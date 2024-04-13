@@ -1,6 +1,8 @@
-﻿using Application.Common.Models;
+﻿using Application.CommandsAndQueries.Deposits.Commands.CreateDeposit;
+using Application.Common.Models;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Models.DTO;
 
 namespace Application.Common.Mappings;
 
@@ -10,5 +12,7 @@ public class AppMappingProfile:Profile
     {
         CreateMap<User, UserDto>();
         CreateMap<Debt, DebtDto>();
+        CreateMap<BankDeposit, DepositDto>();
+        CreateMap<CreateDepositCommand, BankDeposit>();
     }
 }
