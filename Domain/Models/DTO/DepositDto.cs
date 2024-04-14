@@ -7,4 +7,5 @@ public record DepositDto
     public bool Capitalization { get; init; }
     public decimal Rate { get; init; }
     public DateTime DateStart { get; init; }
+    public int MonthsTotal { get; init; }
 }

@@ -7,6 +7,7 @@ using Application.Deposits.Commands.DeleteDeposit;
 using Application.Deposits.Queries.GetDepositDetails;
 using Application.Users.Queries.GetUserDetails;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Models.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,17 +16,18 @@ namespace CreditAPI.Controllers;
 
 [Controller]
 [Route("[controller]")]
-public class DepositsController:BaseController
+public class DepositsController : BaseController
 {
     private readonly IMapper _mapper;
+
     public DepositsController(IMediator mediator, IMapper mapper) : base(mediator)
     {
         _mapper = mapper;
     }
 
     [HttpGet]
-    [Route("{name}/{email}")]
-    public async Task<ActionResult<UserDto>> GetById(string name, string email)
+    [Route("{email}/{name}")]
+    public async Task<ActionResult<DepositDto>> GetByIdByUserEmail( string email, string name)
     {
         var query = new GetDepositDetailsQuery()
         {
@@ -33,14 +35,14 @@ public class DepositsController:BaseController
             EmailUser = email
         };
 
-        var vm = _mapper.Map<DebtDto>(await Mediator.Send(query));
+        var vm = _mapper.Map<DepositDto>(await Mediator.Send(query));
 
         return Ok(vm);
     }
-    
+
     [HttpGet]
     [Route("{email}")]
-    public async Task<ActionResult<UserDto>> GetByUserEmail(string email)
+    public async Task<ActionResult<BankDeposit>> GetByUserEmail(string email)
     {
         var query = new GetDepositListQuery()
         {
@@ -51,15 +53,15 @@ public class DepositsController:BaseController
 
         return Ok(vm);
     }
-    
-    
+
+
     [HttpPost]
     public async Task<ActionResult<UserDto>> Add([FromBody] CreateDepositCommand createDepositsCommand)
     {
         var vm = await Mediator.Send(createDepositsCommand);
         return Ok(vm);
     }
-    
+
     [HttpDelete]
     [Route("{name}/{email}")]
     public async Task<ActionResult<UserDto>> Delete(string name, string email)
@@ -72,12 +74,11 @@ public class DepositsController:BaseController
         var vm = await Mediator.Send(command);
         return Ok(vm);
     }
-    
+
     [HttpPut]
     public async Task<ActionResult<UserDto>> Update([FromBody] UpdateDepositCommand updateDepositsCommand)
     {
         var vm = await Mediator.Send(updateDepositsCommand);
         return Ok(vm);
     }
-    
 }
