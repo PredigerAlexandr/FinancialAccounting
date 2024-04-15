@@ -63,8 +63,8 @@ public class DepositsController : BaseController
     }
 
     [HttpDelete]
-    [Route("{name}/{email}")]
-    public async Task<ActionResult<UserDto>> Delete(string name, string email)
+    [Route("{email}/{name}")]
+    public async Task<ActionResult<DepositDto>> Delete(string name, string email)
     {
         var command = new DeleteDepositCommand()
         {

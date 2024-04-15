@@ -22,6 +22,7 @@ public class IdentityService : IIdentityService
     public async Task<User?> LoginUserAsync(UserLoginDto userLoginDto, string secretKey)
     {
         var hashPassword = GetMD5Hash(userLoginDto.Password + secretKey);
+
         var user = await _context.Users.Where(u => u.Email == userLoginDto.Email)
             .Where(u => u.Password == hashPassword).FirstOrDefaultAsync();
         return user;
