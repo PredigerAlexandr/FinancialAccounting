@@ -1,5 +1,5 @@
 ﻿using Application.Common.Exceptions;
-using Application.Debtss.Commands.CreateDebts;
+using Application.Deposits.Commands.CreateDeposit;
 using Application.Interfaces;
 using Application.Services.IdentityService;
 using AutoMapper;
@@ -8,9 +8,9 @@ using Domain.Models.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Deposits.Commands.CreateDeposit;
+namespace Application.CommandsAndQueries.Payoffs.Commands.CreatePayoff;
 
-public class CreatePayoffCommandHandler : IRequestHandler<CreateDebtsCommand, int>
+public class CreatePayoffCommandHandler : IRequestHandler<CreatePayoffCommand, int>
 {
     private readonly IDbContext _dbContext;
     private readonly IIdentityService _identityService;
@@ -24,7 +24,7 @@ public class CreatePayoffCommandHandler : IRequestHandler<CreateDebtsCommand, in
     }
 
 
-    public async Task<int> Handle(CreateDebtsCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreatePayoffCommand request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.UserEmail,
             cancellationToken: cancellationToken);

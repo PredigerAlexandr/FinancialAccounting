@@ -1,4 +1,5 @@
-﻿using Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
+﻿using Application.CommandsAndQueries.Debts.Commands.CreateDebt;
+using Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
 using Application.Common.Models;
 using Application.Debtss.Commands.CreateDebts;
 using Application.Debtss.Commands.DeleteUser;
@@ -36,7 +37,7 @@ public class DebtsController:BaseController
     
     [HttpGet]
     [Route("{email}")]
-    public async Task<ActionResult<UserDto>> GetByUserEmail(string email)
+    public async Task<ActionResult<IList<DebtDto>>> GetByUserEmail(string email)
     {
         var query = new GetDebtListQuery()
         {
@@ -49,18 +50,18 @@ public class DebtsController:BaseController
     }
     
     
-    [HttpPut]
-    public async Task<ActionResult<UserDto>> Add([FromBody] CreateDebtsCommand createDebtsCommand)
+    [HttpPost]
+    public async Task<ActionResult<UserDto>> Add([FromBody] CreateDebtCommand createDebtsCommand)
     {
         var vm = await Mediator.Send(createDebtsCommand);
         return Ok(vm);
     }
     
     [HttpDelete]
-    [Route("{name}/{email}")]
+    [Route("{email}/{name}")]
     public async Task<ActionResult<UserDto>> Delete(string name, string email)
     {
-        var command = new DeleteDebtsCommand()
+        var command = new DeleteDebtCommand()
         {
             Name = name,
             Email = email

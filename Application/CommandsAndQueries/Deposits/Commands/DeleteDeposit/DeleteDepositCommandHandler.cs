@@ -1,20 +1,21 @@
 ﻿using Application.Common.Exceptions;
 using Application.Debtss.Commands.DeleteUser;
+using Application.Deposits.Commands.DeleteDeposit;
 using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Deposits.Commands.DeleteDeposit;
+namespace Application.CommandsAndQueries.Deposits.Commands.DeleteDeposit;
 
-public class DeleteDepositCommandHandler : IRequestHandler<DeleteDebtsCommand, int>
+public class DeleteDepositCommandHandler : IRequestHandler<DeleteDepositCommand, int>
 {
     private readonly IDbContext _dbContext;
     public DeleteDepositCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
 
-    public async Task<int> Handle(DeleteDebtsCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(DeleteDepositCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Debts.Where(l => l.Name == request.Name).Where(l => l.User.Email == request.Email)
+        var entity = await _dbContext.BankDeposits.Where(d => d.Name == request.Name).Where(d => d.User.Email == request.Email)
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (entity == null)
@@ -22,7 +23,7 @@ public class DeleteDepositCommandHandler : IRequestHandler<DeleteDebtsCommand, i
             throw new NotFoundException(nameof(User), request.Name);
         }
 
-        _dbContext.Debts.Remove(entity);
+        _dbContext.BankDeposits.Remove(entity);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return 1;

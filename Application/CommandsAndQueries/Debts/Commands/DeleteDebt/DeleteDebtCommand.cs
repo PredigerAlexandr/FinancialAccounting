@@ -2,7 +2,7 @@
 
 namespace Application.Debtss.Commands.DeleteUser;
 
-public class DeleteDebtsCommand : IRequest<int>
+public class DeleteDebtCommand : IRequest<int>
 {
     public string Name { get; set; }
     public string Email { get; set; }

@@ -10,6 +10,8 @@ public class Debt
     public decimal CurrentSum { get; set; }
     public decimal Rate { get; set; }
     public DebtType Type { get; set; }
+    public DateTime DateStart { get; set; }
+    public int MonthsTotal { get; set; }
 
     public Guid UserId { get; set; }
     public required User User { get; set; }

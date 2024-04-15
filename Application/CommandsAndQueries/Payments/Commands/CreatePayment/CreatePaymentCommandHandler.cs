@@ -1,4 +1,5 @@
-﻿using Application.Common.Exceptions;
+﻿using Application.CommandsAndQueries.Debts.Commands.CreateDebt;
+using Application.Common.Exceptions;
 using Application.Debtss.Commands.CreateDebts;
 using Application.Interfaces;
 using Application.Services.IdentityService;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Deposits.Commands.CreateDeposit;
 
-public class CreatePaymentCommandHandler : IRequestHandler<CreateDebtsCommand, int>
+public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, int>
 {
     private readonly IDbContext _dbContext;
     private readonly IIdentityService _identityService;
@@ -24,7 +25,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreateDebtsCommand, i
     }
 
 
-    public async Task<int> Handle(CreateDebtsCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.UserEmail,
             cancellationToken: cancellationToken);

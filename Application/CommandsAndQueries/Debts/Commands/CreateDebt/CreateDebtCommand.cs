@@ -1,10 +1,8 @@
-﻿using Application.Common.Models;
-using Domain.Entities;
-using MediatR;
+﻿using MediatR;
 
-namespace Application.Debtss.Commands.CreateDebts;
+namespace Application.CommandsAndQueries.Debts.Commands.CreateDebt;
 
-public class CreateDebtsCommand : IRequest<int>
+public record CreateDebtCommand : IRequest<int>
 {
     public string UserEmail { get; set; }
     public decimal FullSum { get; set; }
@@ -12,4 +10,6 @@ public class CreateDebtsCommand : IRequest<int>
     public string Name { get; set; }
     public double Rate { get; set; }
     public string Type { get; set; }
+    public DateTime DateStart { get; set; }
+    public int MonthsTotal { get; set; }
 }

@@ -18,7 +18,7 @@ public class GetDebtsListQueryHandler : IRequestHandler<GetDebtListQuery, IList<
     }
     
 
-    public async Task<IList<Debt>> Handle(GetDebtListQuery request, CancellationToken cancellationToken)
+    public async Task<IList<Debt>?> Handle(GetDebtListQuery request, CancellationToken cancellationToken)
     {
         var entities = await _dbContext.Debts.Where(u => u.User.Email == request.UserEmail)
             .ToListAsync(cancellationToken);

@@ -8,4 +8,6 @@ public class DebtDto
     public decimal? Rate { get; set; }
     public string Type { get; set; }
     public string UserEmail { get; set; }
+    public DateTime DateStart { get; set; }
+    public int MonthsTotal { get; set; }
 }
