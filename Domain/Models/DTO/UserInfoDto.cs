@@ -1,13 +1,11 @@
-﻿using MediatR;
+﻿namespace Domain.Models.DTO;
 
-namespace Application.Users.Commands.AddUser;
-
-public class UpdateUserCommand : IRequest<short>
+public class UserInfoDto
 {
-    public string Email { get; set; }
     public string Name { get; set; }
     public string MiddleName { get; set; }
     public string Surname { get; set; }
+    public string Email { get; set; }
     public int? Age { get; set; }
     public int? Salary { get; set; }
     public int? JkhSummer { get; set; }

@@ -1,5 +1,4 @@
-﻿using Application.CommandsAndQueries.Debts.Commands.CreateDebt;
-using Application.Common.Exceptions;
+﻿using Application.Common.Exceptions;
 using Application.Interfaces;
 using Application.Services.IdentityService;
 using AutoMapper;
@@ -8,7 +7,7 @@ using Domain.Models.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Debtss.Commands.CreateDebts;
+namespace Application.CommandsAndQueries.Debts.Commands.CreateDebt;
 
 public class CreateDebtsCommandHandler : IRequestHandler<CreateDebtCommand, int>
 {

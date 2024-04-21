@@ -1,4 +1,5 @@
-﻿using CreditAPI.Models.Statistic;
+﻿using AutoMapper;
+using CreditAPI.Models.Statistic;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace CreditAPI.Controllers;
 public class StatisticsController : BaseController
 {
     private readonly IStatisticService _statisticService;
-    public StatisticsController(IMediator mediator, IStatisticService statisticService) : base(mediator)
+    public StatisticsController(IMediator mediator, IStatisticService statisticService, IMapper mapper) : base(mediator, mapper)
     {
         _statisticService = statisticService;
     }
@@ -41,5 +42,23 @@ public class StatisticsController : BaseController
         }
         
         return Ok(statistic);
+    }
+    
+    [Route("deposit-statistics/{userEmail}")]
+    [HttpGet]
+    public async Task<ActionResult<decimal>> StatisticDepositDisplay(string userEmail)
+    {
+        var totalPayoffs = await _statisticService.GetTotalPayoffSum(userEmail);
+        
+        return Ok(totalPayoffs);
+    }
+    
+    [Route("debts-statistics/{userEmail}")]
+    [HttpGet]
+    public async Task<ActionResult<decimal>> StatisticDebtsDisplay(string userEmail)
+    {
+        var totalPayoffs = await _statisticService.GetTotalPayoffSum(userEmail);
+        
+        return Ok(totalPayoffs);
     }
 }

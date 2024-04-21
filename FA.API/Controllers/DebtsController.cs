@@ -14,10 +14,8 @@ namespace CreditAPI.Controllers;
 [Route("[controller]")]
 public class DebtsController:BaseController
 {
-    private readonly IMapper _mapper;
-    public DebtsController(IMediator mediator, IMapper mapper) : base(mediator)
+    public DebtsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
     {
-        _mapper = mapper;
     }
 
     [HttpGet]
@@ -30,7 +28,7 @@ public class DebtsController:BaseController
             EmailUser = email
         };
 
-        var vm = _mapper.Map<DebtDto>(await Mediator.Send(query));
+        var vm = Mapper.Map<DebtDto>(await Mediator.Send(query));
 
         return Ok(vm);
     }
@@ -44,7 +42,7 @@ public class DebtsController:BaseController
             UserEmail = email
         };
 
-        var vm = _mapper.Map<List<DebtDto>>(await Mediator.Send(query));
+        var vm = Mapper.Map<List<DebtDto>>(await Mediator.Send(query));
 
         return Ok(vm);
     }

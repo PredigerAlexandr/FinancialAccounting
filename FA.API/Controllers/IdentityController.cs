@@ -7,6 +7,7 @@ using Application.Users.Commands.CreateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using AutoMapper;
 using Domain.Models.JWT;
 using Microsoft.IdentityModel.Tokens;
 
@@ -22,7 +23,7 @@ public class IdentityController:BaseController
     private readonly IIdentityService _identityService;
     private const string SecretKey = "95381538c4da5c17ea6a4a9e19de7258";
 
-    public IdentityController(IMediator mediator, IIdentityService identityService) : base(mediator)
+    public IdentityController(IMediator mediator, IMapper mapper, IIdentityService identityService) : base(mediator, mapper)
     {
         _identityService = identityService;
     }

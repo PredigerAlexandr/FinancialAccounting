@@ -1,9 +1,9 @@
-﻿using Application.Common.Models;
+﻿using Domain.Entities;
 using MediatR;
 
-namespace Application.Users.Queries.GetUserDetails;
+namespace Application.CommandsAndQueries.Users.Queries.GetUserDetails;
 
-public class GetUserDetailsQuery : IRequest<UserDto>
+public class GetUserDetailsQuery : IRequest<User>
 {
-    public Guid Id { get; set; }
+    public string Email { get; set; }
 }

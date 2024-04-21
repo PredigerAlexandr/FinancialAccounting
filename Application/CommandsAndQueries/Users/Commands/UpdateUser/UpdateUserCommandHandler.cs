@@ -5,30 +5,35 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Users.Commands.UpdateUser;
+namespace Application.CommandsAndQueries.Users.Commands.UpdateUser;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Guid>
+public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, short>
 {
     private readonly IDbContext _dbContext;
     public UpdateUserCommandHandler(IDbContext dbContext) => _dbContext = dbContext;
 
-    public async Task<Guid> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<short> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Users.FirstOrDefaultAsync(user =>
-            user.Id == request.Id, cancellationToken);
+            user.Email == request.Email, cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(User), request.Id);
+            throw new NotFoundException(nameof(User), request.Email);
         }
 
         entity.Name = request.Name;
         entity.MiddleName = request.MiddleName;
+        entity.Surname = request.Surname;
         entity.Age = request.Age;
         entity.Salary = request.Salary;
+        entity.JkhSummer = request.JkhSummer;
+        entity.JkhWinter = request.JkhWinter;
+        entity.IsAuto = request.IsAuto;
+        entity.AnotherPayments = request.AnotherPayments;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
+        return 1;
     }
 }

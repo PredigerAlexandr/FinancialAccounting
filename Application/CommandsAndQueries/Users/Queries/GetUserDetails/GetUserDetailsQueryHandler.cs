@@ -1,14 +1,14 @@
 ﻿using Application.Common.Exceptions;
-using Application.Common.Models;
 using Application.Interfaces;
+using Application.Users.Queries.GetUserDetails;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Users.Queries.GetUserDetails;
+namespace Application.CommandsAndQueries.Users.Queries.GetUserDetails;
 
-public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, UserDto>
+public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, User>
 {
     private readonly IDbContext _dbContext; 
     private readonly IMapper _mapper;
@@ -20,15 +20,15 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
     }
     
 
-    public async Task<UserDto> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<User> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Users.Where(u => u.Id == request.Id).FirstOrDefaultAsync(cancellationToken: cancellationToken);
+        var entity = await _dbContext.Users.Where(u => u.Email == request.Email).FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(User), request.Id);
+            throw new NotFoundException(nameof(User), request.Email);
         }
 
-        return _mapper.Map<UserDto>(entity);
+        return entity;
     }
 }

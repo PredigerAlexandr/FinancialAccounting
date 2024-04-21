@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CreditAPI.Controllers;
@@ -7,5 +8,10 @@ namespace CreditAPI.Controllers;
 public abstract class BaseController : ControllerBase
 {
     protected readonly IMediator Mediator;
-    protected BaseController(IMediator mediator) => Mediator = mediator;
+    protected readonly IMapper Mapper; 
+    protected BaseController(IMediator mediator, IMapper mapper)
+    {
+        Mediator = mediator;
+        Mapper = mapper;
+    }
 }

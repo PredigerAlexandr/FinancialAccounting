@@ -11,6 +11,7 @@ public class AppMappingProfile:Profile
     public AppMappingProfile()
     {
         CreateMap<User, UserDto>();
+        CreateMap<User, UserInfoDto>();
         CreateMap<Debt, DebtDto>();
         CreateMap<BankDeposit, DepositDto>();
         CreateMap<CreateDepositCommand, BankDeposit>();

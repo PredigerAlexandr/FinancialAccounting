@@ -6,17 +6,17 @@ public class StatisticMainPageVm
     /// Остаточная сумма всех кредитов
     /// </summary>
     public decimal TotalDebts { get; set; }
-    
+
     /// <summary>
     /// Сумма, находящаяся во вкладах
     /// </summary>
-    public decimal TotalDeposits{ get; set; }
-    
+    public decimal TotalDeposits { get; set; }
+
     /// <summary>
     /// Итоговая сумма выплат за всё время
     /// </summary>
     public decimal TotalPayments { get; set; }
-    
+
     /// <summary>
     /// Сума, полученная по вкладам (
     /// </summary>

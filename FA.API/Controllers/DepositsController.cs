@@ -18,11 +18,8 @@ namespace CreditAPI.Controllers;
 [Route("[controller]")]
 public class DepositsController : BaseController
 {
-    private readonly IMapper _mapper;
-
-    public DepositsController(IMediator mediator, IMapper mapper) : base(mediator)
+    public DepositsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
     {
-        _mapper = mapper;
     }
 
     [HttpGet]
@@ -35,7 +32,7 @@ public class DepositsController : BaseController
             EmailUser = email
         };
 
-        var vm = _mapper.Map<DepositDto>(await Mediator.Send(query));
+        var vm = Mapper.Map<DepositDto>(await Mediator.Send(query));
 
         return Ok(vm);
     }
@@ -49,7 +46,7 @@ public class DepositsController : BaseController
             UserEmail = email
         };
 
-        var vm = _mapper.Map<List<DepositDto>>(await Mediator.Send(query));
+        var vm = Mapper.Map<List<DepositDto>>(await Mediator.Send(query));
 
         return Ok(vm);
     }
@@ -65,6 +62,7 @@ public class DepositsController : BaseController
     [HttpDelete]
     [Route("{email}/{name}")]
     public async Task<ActionResult<DepositDto>> Delete(string name, string email)
+    
     {
         var command = new DeleteDepositCommand()
         {
