@@ -18,6 +18,7 @@ namespace CreditAPI.Controllers;
 [Route("[controller]")]
 public class DepositsController : BaseController
 {
+
     public DepositsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
     {
     }
@@ -62,7 +63,6 @@ public class DepositsController : BaseController
     [HttpDelete]
     [Route("{email}/{name}")]
     public async Task<ActionResult<DepositDto>> Delete(string name, string email)
-    
     {
         var command = new DeleteDepositCommand()
         {
