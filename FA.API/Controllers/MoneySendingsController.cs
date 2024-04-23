@@ -16,6 +16,20 @@ public class MoneySendingsController : BaseController
     {
     }
 
+    [HttpPost]
+    public async Task<ActionResult<string[]>> Add([FromBody] string userEmail)
+    {
+        var query = new GetUserDetailsQuery()
+        {
+            Email = userEmail
+        };
+        var user = await Mediator.Send(query);
+
+        return Ok(user.IsAuto is true
+            ? Constants.Constant.TypeMoneySendingsForAuto.Concat(Constants.Constant.TypeMoneySendings)
+            : Constants.Constant.TypeMoneySendings);
+    }
+    
     [HttpGet]
     [Route("types/{userEmail}")]
     public async Task<ActionResult<string[]>> GetTypes(string userEmail)

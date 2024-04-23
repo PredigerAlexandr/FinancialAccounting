@@ -19,6 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="CommandsAndQueries\MoneySendings\Commands\" />
+      <Folder Include="CommandsAndQueries\MoneySendings\Queries\" />
       <Folder Include="Common\Filters\" />
     </ItemGroup>
 
