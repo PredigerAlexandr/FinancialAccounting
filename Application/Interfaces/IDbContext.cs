@@ -11,6 +11,7 @@ public interface IDbContext
     DbSet<Payment> Payments { get; set; }
     public DbSet<Payoff> Payoffs { get; set; }
     public DbSet<Statistic> Statistics { get; set; }
+    public DbSet<MoneySpending> MoneySpendings { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
