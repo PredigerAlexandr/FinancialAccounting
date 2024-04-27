@@ -1,19 +1,15 @@
-﻿using System.Globalization;
-using System.Reflection.Metadata;
-using Application.CommandsAndQueries.Debts.Commands.CreateDebt;
-using Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
+﻿using Application.CommandsAndQueries.Debts.Commands.CreateDebt;
 using Application.CommandsAndQueries.MoneySpendings.Commands.DeleteMoneySpending;
 using Application.CommandsAndQueries.MoneySpendings.Queries.GetMoneySpendingListByMonthQuery;
 using Application.CommandsAndQueries.MoneySpendings.Queries.GetMoneySpendingListQuery;
 using Application.CommandsAndQueries.Users.Queries.GetUserDetails;
-using Application.Debtss.Commands.DeleteUser;
 using Application.Debtss.Queries.GetDebtsDetails;
 using AutoMapper;
 using CreditAPI.Models.Statistic;
 using Domain.Entities;
+using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using Constants = Application.Common.Constants;
 
 namespace CreditAPI.Controllers;
@@ -22,8 +18,10 @@ namespace CreditAPI.Controllers;
 [Route("[controller]")]
 public class MoneySpendingsController : BaseController
 {
-    public MoneySpendingsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+    private readonly IMoneySpendingService _moneySpendingService;
+    public MoneySpendingsController(IMediator mediator, IMapper mapper, IMoneySpendingService moneySpendingService) : base(mediator, mapper)
     {
+        _moneySpendingService = moneySpendingService;
     }
 
     [HttpGet]
@@ -89,7 +87,7 @@ public class MoneySpendingsController : BaseController
     public async Task<ActionResult<IList<SeriesElementVm<string,int>>>> GetArray(string userEmail)
     {
         var currentTime = DateTime.Today;
-        var startCalculateDate = currentTime.AddMonths(-12);
+        var startCalculateDate = currentTime.AddMonths(-11);
         var seriesObjects = new List<SeriesElementVm<string, int>>();
         var queryUser = new GetUserDetailsQuery()
         {
@@ -124,11 +122,20 @@ public class MoneySpendingsController : BaseController
             {
                 seriesObject.Value += jkhWinter;
             }
-            
+
+            seriesObject.Value += entities?.Sum(e=>e.Amount) ?? 0;
             seriesObjects.Add(seriesObject);
         }
 
         return Ok(seriesObjects);
     }
-    
+
+    [HttpGet]
+    [Route("forecasting-money-spendings/{userEmail}")]
+    public async Task<ActionResult<IList<string>>> GetForecastingMoneySpendings(string userEmail)
+    {
+        var list = await _moneySpendingService.GetForecastingAsync(userEmail);
+
+        return Ok(list);
+    }
 }
