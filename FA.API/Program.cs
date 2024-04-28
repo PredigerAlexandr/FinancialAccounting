@@ -6,6 +6,7 @@ using Application.Interfaces;
 using Application.Services;
 using Application.Services.DebtService;
 using Application.Services.IdentityService;
+using Application.Services.MoneySpendingService;
 using Application.Services.StatisticService;
 using Application.Services.UserService;
 using Application.Users.Commands.CreateUser;
@@ -65,6 +66,7 @@ builder.Services.AddScoped<IIdentityService,IdentityService>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IStatisticService,StatisticService>();
 builder.Services.AddScoped<IDebtService,DebtService>();
+builder.Services.AddScoped<IMoneySpendingService,MoneySpendingService>();
 
 
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>
