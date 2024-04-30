@@ -6,7 +6,7 @@ public class CreateDebtsCommandValidator:AbstractValidator<CreateDebtCommand>
 {
     public CreateDebtsCommandValidator()
     {
-        var validValues = new[] {"debt", "credit", "Debt", "Credit"};
+        var validValues = new[] {"долг", "кредит", "Долг", "Кредит"};
         RuleFor(d=>d.Type)
             .Must(value => validValues.Contains(value))
             .WithMessage("Значение поля Rate должно быть из списка допустимых значений");

@@ -30,6 +30,8 @@ public class CreateDebtsCommandHandler : IRequestHandler<CreateDebtCommand, int>
         if (user == null)
             throw new NotFoundException(nameof(User), request.UserEmail);
 
+        request.Type = request.Type is "кредит" or "Кредит" ? "Credit" : "Debt";
+
         await _dbContext.Debts.AddAsync(new Debt
         {
             Name = request.Name,
@@ -43,8 +45,6 @@ public class CreateDebtsCommandHandler : IRequestHandler<CreateDebtCommand, int>
         }, cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-
-
         return 1;
     }
 }
