@@ -5,7 +5,10 @@ using Application.Debtss.Commands.CreateDebts;
 using Application.Debtss.Commands.DeleteUser;
 using Application.Debtss.Commands.UpdateUser;
 using Application.Debtss.Queries.GetDebtsDetails;
+using Application.Users.Queries.GetUserDetails;
 using AutoMapper;
+using Domain.Interfaces;
+using Domain.Models.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,8 +17,10 @@ namespace CreditAPI.Controllers;
 [Route("[controller]")]
 public class DebtsController:BaseController
 {
-    public DebtsController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+    private readonly IDebtService _debtService;
+    public DebtsController(IMediator mediator, IMapper mapper, IDebtService debtService) : base(mediator, mapper)
     {
+        _debtService = debtService;
     }
 
     [HttpGet]
@@ -35,16 +40,23 @@ public class DebtsController:BaseController
     
     [HttpGet]
     [Route("{email}")]
-    public async Task<ActionResult<IList<DebtDto>>> GetByUserEmail(string email)
+    public async Task<ActionResult<List<DebtDto>>> GetByUserEmail(string email)
     {
-        var query = new GetDebtListQuery()
+        var debtQuery = new GetDebtListQuery()
         {
             UserEmail = email
         };
+        var debts = Mapper.Map<List<DebtDto>>(await Mediator.Send(debtQuery));
 
-        var vm = Mapper.Map<List<DebtDto>>(await Mediator.Send(query));
+        var depositQuery = new GetDepositListQuery()
+        {
+            UserEmail = email
+        };
+        var deposits = await Mediator.Send(depositQuery);
 
-        return Ok(vm);
+        debts = _debtService.OfferTransferFromDepositToDebt(debts, deposits);
+
+        return Ok(debts);
     }
     
     

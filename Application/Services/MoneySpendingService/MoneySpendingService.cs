@@ -39,7 +39,7 @@ public class MoneySpendingService : IMoneySpendingService
         {
             var entites = user?.MoneySpendings.Where(m => m.Type == type)
                 .OrderBy(m => m.Date).ToArray();
-            if (entites != null && entites.Length > 1)
+            if (entites != null && entites.Length > 2)
             {
                 var nextEventDate = PredicateNextMoneyPayment(entites);
                 if (nextEventDate > DateTime.Now
@@ -74,7 +74,7 @@ public class MoneySpendingService : IMoneySpendingService
         }
 
         // Построение модели с полиномиальной функцией
-        Polynomial poly = Polynomial.Fit(x, y, 2);
+        Polynomial poly = Polynomial.Fit(x, y, 3);
 
         var nextEventIndex = data.Length + 1;
         double newY = poly.Evaluate(nextEventIndex);

@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Models;
+﻿namespace Domain.Models.DTO;
 
 public class DebtDto
 {
@@ -10,4 +10,5 @@ public class DebtDto
     public string UserEmail { get; set; }
     public DateTime DateStart { get; set; }
     public int MonthsTotal { get; set; }
+    public List<Object> OffersDepositToDebt { get; set; } = new List<Object>();
 }
