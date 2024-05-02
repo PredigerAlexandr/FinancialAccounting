@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="CommandsAndQueries\Notifications\Commands\" />
       <Folder Include="Common\Filters\" />
     </ItemGroup>
 

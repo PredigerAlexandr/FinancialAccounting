@@ -14,6 +14,7 @@ public class PostgreSqlDbContext : DbContext, IDbContext
     public DbSet<Payoff> Payoffs { get; set; }
     public DbSet<Statistic> Statistics { get; set; }
     public DbSet<MoneySpending> MoneySpendings { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
 
     public PostgreSqlDbContext(DbContextOptions<PostgreSqlDbContext> options) : base(options)

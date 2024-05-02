@@ -12,6 +12,7 @@ public class User
     public int? JkhWinter { get; set; }
     public bool? IsAuto { get; set; }
     public int? AnotherPayments { get; set; }
+    public string? City { get; set; }
 
     public string Email { get; set; }
     public string Password { get; set; }
@@ -20,4 +21,6 @@ public class User
     public List<BankDeposit>? BankDeposits { get; set; }
     public List<Statistic>? Statistics { get; set; }
     public List<MoneySpending>? MoneySpendings { get; set; }
+    
+    public List<Notification>? Notifications { get; set; }
 }
