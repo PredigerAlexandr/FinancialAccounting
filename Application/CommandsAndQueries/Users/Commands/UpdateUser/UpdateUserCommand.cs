@@ -8,6 +8,8 @@ public class UpdateUserCommand : IRequest<short>
     public string Name { get; set; }
     public string MiddleName { get; set; }
     public string Surname { get; set; }
+    public string? City { get; set; }
+    public string? ProfileWork { get; set; }
     public int? Age { get; set; }
     public int? Salary { get; set; }
     public int? JkhSummer { get; set; }

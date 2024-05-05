@@ -6,4 +6,5 @@ namespace Application.CommandsAndQueries.Notifications.Queries.GetNotificationLi
 public class GetNotificationListQuery : IRequest<IList<Notification>?>
 {
     public string UserEmail { get; set; }
+    public int Page { get; set; }
 }

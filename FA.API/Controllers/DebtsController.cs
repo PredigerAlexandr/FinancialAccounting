@@ -1,5 +1,6 @@
 ﻿using Application.CommandsAndQueries.Debts.Commands.CreateDebt;
 using Application.CommandsAndQueries.Debts.Queries.GetDebtListQuery;
+using Application.CommandsAndQueries.Payments.Commands.CreatePayment;
 using Application.Common.Models;
 using Application.Debtss.Commands.CreateDebts;
 using Application.Debtss.Commands.DeleteUser;
@@ -86,5 +87,14 @@ public class DebtsController:BaseController
         var vm = await Mediator.Send(updateDebtsCommand);
         return Ok(vm);
     }
+
+    [HttpPost]
+    [Route("payments")]
+    public async Task<ActionResult> AddPayment([FromBody] CreatePaymentCommand query)
+    {
+        var o = await Mediator.Send(query);
+        return Ok();
+    }
+    
     
 }

@@ -14,7 +14,11 @@ using AutoMapper;
 using Domain.Interfaces;
 using Domain.Models.JWT;
 using FluentValidation.AspNetCore;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Infrastructure;
+using Infrastructure.Jobs;
+using Infrastructure.Jobs.JobService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -67,6 +71,18 @@ builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IStatisticService,StatisticService>();
 builder.Services.AddScoped<IDebtService,DebtService>();
 builder.Services.AddScoped<IMoneySpendingService,MoneySpendingService>();
+builder.Services.AddScoped<IVacancyService, VacancyService>();
+builder.Services.AddScoped<IPaymentsService, PaymentsService>();
+
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UsePostgreSqlStorage("Host=localhost;Port=5432;Database=FA;Username=postgres;Password=0000"));
+builder.Services.AddHangfireServer(options => { options.Queues = new[] { "default" }; });
+
+builder.Services.AddHostedService<VacancySearchJob>();
+builder.Services.AddHostedService<PaymentsCheckJob>();
 
 
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", policy =>

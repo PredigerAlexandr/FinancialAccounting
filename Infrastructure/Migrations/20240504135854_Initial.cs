@@ -21,11 +21,12 @@ namespace Infrastructure.Migrations
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Age = table.Column<int>(type: "integer", nullable: true),
                     Salary = table.Column<int>(type: "integer", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    ProfileWork = table.Column<string>(type: "text", nullable: true),
                     JkhSummer = table.Column<int>(type: "integer", nullable: true),
                     JkhWinter = table.Column<int>(type: "integer", nullable: true),
                     IsAuto = table.Column<bool>(type: "boolean", nullable: true),
                     AnotherPayments = table.Column<int>(type: "integer", nullable: true),
-                    City = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false)
                 },

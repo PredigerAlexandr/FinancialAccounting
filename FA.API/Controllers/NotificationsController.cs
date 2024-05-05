@@ -1,4 +1,5 @@
-﻿using Application.CommandsAndQueries.Notifications.Queries.GetNotificationListQuery;
+﻿using Application.CommandsAndQueries.Notifications.Queries.GetNotificationDetails;
+using Application.CommandsAndQueries.Notifications.Queries.GetNotificationListQuery;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -16,14 +17,26 @@ public class NotificationsController : BaseController
     }
 
     [HttpGet]
-    [Route("{userEmail}")]
+    [Route("{page}/{userEmail}")]
     public async Task<ActionResult<List<Notification>?>> GetNotificationList(
-         string userEmail)
+         string userEmail, int page)
     {
         var entites = await Mediator.Send(new GetNotificationListQuery()
         {
-            UserEmail = userEmail
+            UserEmail = userEmail,
+            Page = page
         });
         return Ok(entites);
+    }
+    
+    [HttpGet]
+    [Route("{guid}")]
+    public async Task<ActionResult<Notification?>> GetNotification(string guid)
+    {
+        var entity = await Mediator.Send(new GetNotificationDetailsQuery()
+        {
+            Id = new Guid(guid)
+        });
+        return Ok(entity);
     }
 }

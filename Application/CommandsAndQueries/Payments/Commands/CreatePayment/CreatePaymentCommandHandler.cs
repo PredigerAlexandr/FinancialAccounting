@@ -1,4 +1,5 @@
 ﻿using Application.CommandsAndQueries.Debts.Commands.CreateDebt;
+using Application.CommandsAndQueries.Payments.Commands.CreatePayment;
 using Application.Common.Exceptions;
 using Application.Debtss.Commands.CreateDebts;
 using Application.Interfaces;
@@ -27,20 +28,17 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
 
     public async Task<int> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.UserEmail,
-            cancellationToken: cancellationToken);
-        if (user == null)
+        var debt = await _dbContext.Debts.FirstOrDefaultAsync(d =>
+            d.User.Email == request.UserEmail && d.Name == request.DebtName);
+        if (debt == null)
             throw new NotFoundException(nameof(User), request.UserEmail);
 
-        _dbContext.Debts.AddAsync(new Debt
+        debt.Payments.Add(new Payment
         {
-            Name = request.Name,
-            FullSum = request.FullSum,
-            CurrentSum = request.CurrentSum,
-            Rate = (decimal)request.Rate,
-            Type = (DebtType)Enum.Parse(typeof(DebtType), request.Type),
-            User = user
-        }, cancellationToken);
+            DateCreate = DateTime.Now,
+            Amount = request.Amount,
+            Debt = debt
+        });
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

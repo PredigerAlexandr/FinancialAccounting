@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PostgreSqlDbContext))]
-    [Migration("20240502211607_Initial")]
-    partial class Initial
+    [Migration("20240505210142_AddField")]
+    partial class AddField
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,6 +144,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("Read")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("Salary")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -280,6 +283,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfileWork")
                         .HasColumnType("text");
 
                     b.Property<int?>("Salary")

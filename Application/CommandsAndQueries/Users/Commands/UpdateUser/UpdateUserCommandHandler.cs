@@ -27,6 +27,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, short
         entity.Surname = request.Surname;
         entity.Age = request.Age;
         entity.Salary = request.Salary;
+        entity.City = request.City;
+        entity.ProfileWork = request.ProfileWork;
         entity.JkhSummer = request.JkhSummer;
         entity.JkhWinter = request.JkhWinter;
         entity.IsAuto = request.IsAuto;

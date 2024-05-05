@@ -1,13 +1,10 @@
 ﻿using MediatR;
 
-namespace Application.Deposits.Commands.CreateDeposit;
+namespace Application.CommandsAndQueries.Payments.Commands.CreatePayment;
 
 public class CreatePaymentCommand : IRequest<int>
 {
-    public string UserEmail { get; set; }
-    public decimal FullSum { get; set; }
-    public decimal CurrentSum { get; set; }
-    public string Name { get; set; }
-    public double Rate { get; set; }
-    public string Type { get; set; }
+   public string UserEmail { get; set; }
+   public string DebtName { get; set; }
+   public decimal Amount { get; set; }
 }

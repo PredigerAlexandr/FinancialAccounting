@@ -1,4 +1,5 @@
-﻿using Application.Common.Exceptions;
+﻿using System.Runtime.InteropServices.JavaScript;
+using Application.Common.Exceptions;
 using Application.Debtss.Commands.CreateDebts;
 using Application.Interfaces;
 using Application.Services.IdentityService;
@@ -31,7 +32,7 @@ public class CreateDepositCommandHandler : IRequestHandler<CreateDepositCommand,
         if (user == null)
             throw new NotFoundException(nameof(User), request.UserEmail);
 
-        await _dbContext.BankDeposits.AddAsync(new BankDeposit()
+        var deposit = new BankDeposit()
         {
             Name = request.Name,
             FullSum = request.FullSum,
@@ -40,7 +41,27 @@ public class CreateDepositCommandHandler : IRequestHandler<CreateDepositCommand,
             DateStart = request.DateStart,
             MonthsTotal = request.MonthsTotal,
             User = user
-        }, cancellationToken);
+        };
+
+        var currentDate = DateTime.Now;
+        var startDate = deposit.DateStart;
+        while (startDate.Month != currentDate.Month || startDate.Year != currentDate.Year)
+        {
+            var payoff = new Payoff()
+            {
+                Amount = Decimal.Round(deposit.FullSum * (decimal)deposit.Rate / 1200, 1),
+                DateCreate = startDate,
+                BankDeposit = deposit
+            };
+            if (deposit.Capitalization)
+            {
+                deposit.FullSum += payoff.Amount;
+            }
+            deposit.Payoffs.Add(payoff);
+            startDate = startDate.AddMonths(1);
+        }
+
+        await _dbContext.BankDeposits.AddAsync(deposit, cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

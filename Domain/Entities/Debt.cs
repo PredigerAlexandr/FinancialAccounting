@@ -15,6 +15,6 @@ public class Debt
 
     public Guid UserId { get; set; }
     public required User User { get; set; }
-    
-    public IList<Payment>? Payments { get; set; }
+
+    public IList<Payment> Payments { get; set; } = new List<Payment>();
 }

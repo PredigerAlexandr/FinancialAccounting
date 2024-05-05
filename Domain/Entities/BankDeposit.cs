@@ -15,6 +15,6 @@ public class BankDeposit
     
     public Guid UserId { get; set; }
     public User User { get; set; }
-    
-    public IList<Payoff>? Payoffs { get; set; }
+
+    public IList<Payoff> Payoffs { get; set; } = new List<Payoff>();
 }

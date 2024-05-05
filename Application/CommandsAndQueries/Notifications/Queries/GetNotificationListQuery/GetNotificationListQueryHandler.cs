@@ -22,7 +22,8 @@ public class GetNotificationListQueryHandler : IRequestHandler<GetNotificationLi
     public async Task<IList<Notification>?> Handle(GetNotificationListQuery request,
         CancellationToken cancellationToken)
     {
-        var entities = await _dbContext.Notifications.Where(n => n.User.Email == request.UserEmail)
+        var entities = await _dbContext.Notifications.Where(n => n.User.Email == request.UserEmail).OrderBy(n => n.Date)
+            .Skip((request.Page-1) * 10).Take(10)
             .ToListAsync(cancellationToken: cancellationToken);
 
         return entities;
